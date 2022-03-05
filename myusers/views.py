@@ -13,6 +13,7 @@ from myusers.serializers import UserSerializer, SignupSerializer
 
 # caching
 @method_decorator([vary_on_headers("Authorization",),vary_on_cookie, cache_page(60*60*2)], name='dispatch')
+#list of users
 class UserList(generics.ListAPIView):
     
     permission_classes = [IsAuthenticated,IsAdminUser ]
@@ -22,8 +23,7 @@ class UserList(generics.ListAPIView):
     search_fields = ['first_name','last_name', 'email']
     ordering_fields =  ['first_name','last_name', 'email']
 
+#user signup
 class SignupView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = SignupSerializer
-
-
