@@ -11,17 +11,17 @@ from rest_framework import filters
 
 from myusers.serializers import UserSerializer, SignupSerializer
 
-# caching
+#caching
 @method_decorator([vary_on_headers("Authorization",),vary_on_cookie, cache_page(60*60*2)], name='dispatch')
+
 #list of users
 class UserList(generics.ListAPIView):
-    
     permission_classes = [IsAuthenticated,IsAdminUser ]
     queryset = User.objects.all()
     serializer_class = UserSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['first_name','last_name', 'email']
-    ordering_fields =  ['first_name','last_name', 'email']
+    ordering_fields =  ['first_name','last_name', 'email','is_staff','date_joined','is_superuser']
 
 #user signup
 class SignupView(generics.CreateAPIView):
