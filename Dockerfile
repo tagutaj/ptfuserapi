@@ -7,7 +7,15 @@ FROM python:3.10.0
 ENV PYTHONUNBUFFERED 1
 
 # Get the Real World example app
-RUN git clone https://github.com/tagutaj/ptfuserapi.git
+#RUN git clone https://github.com/tagutaj/ptfuserapi.git
+RUN git config --global git.protocol https
+RUN git config --global user.email tagutaj@gmail.com
+RUN git config --global user.name tagutaj
+RUN export GITHUB_TOKEN=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
+
+
+
+RUN git clone git@github.com:tagutaj/ptfuserapi
 
 # Set the working directory to /drf
 # NOTE: all the directives that follow in the Dockerfile will be executed in
