@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 from django.contrib.auth.models import User
 
 from django.utils.decorators import method_decorator
@@ -9,7 +9,16 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated,IsAdminUser
 from rest_framework import filters
 
+#from django.views.generic.base import View
+
 from myusers.serializers import UserSerializer, SignupSerializer
+
+"""
+class Index(View):
+    
+    def get(self, request, * args, **kwargs):
+        return HttpResponse("API")
+"""
 
 #caching
 @method_decorator([vary_on_headers("Authorization",),vary_on_cookie, cache_page(60*60*2)], name='dispatch')
@@ -17,7 +26,7 @@ from myusers.serializers import UserSerializer, SignupSerializer
 #list of users
 class UserList(generics.ListAPIView):
     permission_classes = [IsAuthenticated,IsAdminUser ]
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['first_name','last_name', 'email']
@@ -27,3 +36,15 @@ class UserList(generics.ListAPIView):
 class SignupView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = SignupSerializer
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': reverse('user-list', request=request, format=format),
+        'signup': reverse('signup', request=request, format=format)
+    })
