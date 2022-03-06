@@ -5,7 +5,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         #fields = "__all__" #['id','first_name','last_name','email']
-        fields =["username", "first_name","last_name","email","is_staff","is_active","date_joined","groups","user_permissions","last_login", "is_superuser"]
+        fields =["id","username", "first_name","last_name","email","is_staff","is_active","date_joined","groups","user_permissions","last_login", "is_superuser"]
 
 
 from django.contrib.auth import get_user_model

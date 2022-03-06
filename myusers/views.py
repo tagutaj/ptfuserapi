@@ -17,7 +17,7 @@ from myusers.serializers import UserSerializer, SignupSerializer
 #list of users
 class UserList(generics.ListAPIView):
     permission_classes = [IsAuthenticated,IsAdminUser ]
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['first_name','last_name', 'email']
