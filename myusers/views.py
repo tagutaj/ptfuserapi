@@ -9,16 +9,14 @@ from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated,IsAdminUser
 from rest_framework import filters
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 #from django.views.generic.base import View
 
 from myusers.serializers import UserSerializer, SignupSerializer
 
-"""
-class Index(View):
-    
-    def get(self, request, * args, **kwargs):
-        return HttpResponse("API")
-"""
+
 
 #caching
 @method_decorator([vary_on_headers("Authorization",),vary_on_cookie, cache_page(60*60*2)], name='dispatch')
@@ -37,11 +35,7 @@ class SignupView(generics.CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = SignupSerializer
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework.reverse import reverse
-
-
+#api root
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
